@@ -33,19 +33,20 @@ export default class HomePage extends Component {
             
     // }
 
-    async componentDidMount(){
-        console.log("Component is mounting..."); // Add this line
-        fetch('/api/user-in-room').then((response)=> response.json())
-        .then((data)=>{
-            console.log("API response:", data); // Add this line to check API response
-            this.setState({
-                roomCode : data.code
-            })
+    // async componentDidMount(){
+    //     debugger
+    //     console.log("Component is mounting..."); // Add this line
+    //     fetch('/api/user-in-room').then((response)=> response.json())
+    //     .then((data)=>{
+    //         console.log("API response:", data); // Add this line to check API response
+    //         this.setState({
+    //             roomCode : data.code
+    //         })
     
-        }).catch(error => {
-            console.error("Error fetching data:", error); // Add this line to handle errors
-        });
-    }
+    //     }).catch(error => {
+    //         console.error("Error fetching data:", error); // Add this line to handle errors
+    //     });
+    // }
     
 
 
@@ -93,11 +94,17 @@ export default class HomePage extends Component {
 
                     <Route path="/join" element={<RoomJoinPage />} />
                     <Route path="/create" element={<CreateRoomPage />} />
-                    {/* <Route path="/room/:roomCode" element={<Room/>}*/}
-                    <Route path="/room/:roomCode"
-                    render={(props) =>{
-                        return <Room {...props} leaveRoomCallback={this.clearRoomCode} />
-                    }} />
+                    <Route path="/room/:roomCode" element={<Room/>} />
+                    {/* <Route path="/room/:roomCode"
+                     render={(props) =>{ 
+                       return <Room {...props} leaveRoomCallback={this.clearRoomCode}></Room> 
+                     }} /> */}
+                     {/* <Route path="/room/:roomCode">
+                        {({ params }) => (
+                            <Room roomCode={params.roomCode} leaveRoomCallback={clearRoomCode} />
+                        )} */}
+                    {/* </Route> */}
+
 
                 </Routes>
             </Router>

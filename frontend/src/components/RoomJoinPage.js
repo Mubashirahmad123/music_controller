@@ -37,7 +37,7 @@ export default class RoomJoinPage extends Component {
         </Grid>
         <Grid item xs={12} align="center">
         <Button variant="contained" color="primary" 
-        onClick={this.roomButtonPressed}>Enter Room</Button>
+        onClick={this.roomButtonPressed}>Enter Room12</Button>
           
         </Grid>
         <Grid item xs={12} align="center">
@@ -115,6 +115,7 @@ export default class RoomJoinPage extends Component {
   // }
   
   roomButtonPressed() {
+    // debugger
     console.log("Room button pressed with room code:", this.state.roomCode);
   
     const requestOptions = {
