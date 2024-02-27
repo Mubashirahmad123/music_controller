@@ -11,6 +11,7 @@ export default class Room extends Component {
       guestCanPause: false,
       isHost: false,
       showSettings: false,
+      spotifyAuthenticated: false
     };
     // this.roomCode = this.props.match.params.roomCode
 
@@ -20,6 +21,7 @@ export default class Room extends Component {
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
     this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
+    this.authenticateSpotify = this.authenticateSpotify.bind(this);
     this.getRoomDetails();
 
   }
@@ -45,8 +47,52 @@ export default class Room extends Component {
           guestCanPause: data.guest_can_pause,
           isHost: data.is_host,
         });
+        if (this.state.isHost) {
+          this.authenticateSpotify()
+        }
       });
   }
+
+  // authenticateSpotify() {
+
+  //   fetch('/spotify/is_authenticated').then((response)=> response.json()).then((data) => {
+  //     console.log("Spotify authentication status:", data.status); // Debugging statement
+
+  //     this.setState({spotifyAuthenticated: data.status });
+  //     if (!data.status) {
+  //       fetch('/spotify/get-auth-url').then((response) => response.json()).then((data) =>{
+  //         console.log("Redirecting to Spotify authentication URL:", data.url); // Debugging statement
+
+  //         window.location.replace(data.url)
+  //       })
+  //     }
+
+  //   });
+
+  // }
+
+  authenticateSpotify() {
+    console.log("Fetching Spotify authentication status...");
+    // debugger;
+    fetch('/spotify/is_authenticated')
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Spotify authentication status:", data.status);
+            this.setState({ spotifyAuthenticated: data.status });
+            if (!data.status) {
+                console.log("User is not authenticated. Fetching authentication URL...");
+                fetch('/spotify/get-auth-url')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log("Redirecting to Spotify authentication URL:", data.url);
+                        window.location.replace(data.url);
+                    });
+            }
+            console.log("hiii")
+        });
+}
+
+
 
 
   leaveButtonPressed(){
