@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
+import MusicPlayer from "./MusicPlayer";
 
 
 export default class Room extends Component {
@@ -181,7 +182,7 @@ export default class Room extends Component {
             Code : {this.roomCode}
           </Typography>
         </Grid>
-        {/* <Grid item xs={12} align="center">
+        <Grid item xs={12} align="center">
         <Typography variant="h6" component={'h6'}>
         Votes: {this.state.votesToSkip}
           </Typography>
@@ -195,12 +196,9 @@ export default class Room extends Component {
         <Typography variant="h6" component={'h6'}>
         Host: {this.state.isHost.toString()}
           </Typography>
-        </Grid> */}
-        {/* {this.state.song} */}
-        {this.state.song ? this.state.song.title : null}
-       
-
-
+        </Grid>
+        <MusicPlayer {...this.state.song}/>
+        {/* {this.state.song ? this.state.song.title : null} */}
         {this.state.isHost ? this.renderSettingsButton() : null}
         <Grid item xs={12} align="center">
           <Button  variant="contained" color="secondary" onClick={this.leaveButtonPressed}
