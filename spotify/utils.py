@@ -2,7 +2,12 @@ from .models import SpotifyToken
 from django.utils import timezone
 from datetime import timedelta
 from .credentials import CLIENT_ID, CLIENT_SECRET
-from requests import post
+from requests import post, put, get
+import requests
+
+
+BASE_URL = "https://api.spotify.com/v1/me/"
+
 
 def get_users_tokens(session_id):
     user_tokens = SpotifyToken.objects.filter(user=session_id)
@@ -94,3 +99,101 @@ def refresh_spotify_token(session_id):
     
     
     update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token)       
+    
+    
+    
+# def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
+#     tokens = get_users_tokens(session_id)
+#     headers = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
+
+    
+#     if post_:
+#         post(BASE_URL + endpoint, headers=headers)
+        
+#     if put_:
+#         put(BASE_URL + endpoint, headers=headers)  
+        
+#     response = get(BASE_URL + endpoint, {}, headers=headers)
+    
+#     try:
+#         return response.json()
+#     except:
+#         return {'Error': 'Issue with request'}
+
+# from requests.exceptions import HTTPError, Timeout
+
+# def execute_spotify_api_request(session_id, endpoint, method='GET', data=None):
+#     tokens = get_users_tokens(session_id)
+#     headers = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
+
+#     try:
+#         if method == 'POST':
+#             response = requests.post(BASE_URL + endpoint, headers=headers, json=data)
+#         elif method == 'PUT':
+#             response = requests.put(BASE_URL + endpoint, headers=headers, json=data)
+#         else:
+#             response = requests.get(BASE_URL + endpoint, headers=headers)
+
+#         response.raise_for_status()  # Raise HTTPError for non-2xx responses
+        
+#         return response.json()
+#     except HTTPError as http_err:
+#         return {'Error': f'HTTP error occurred: {http_err}'}
+#     except Timeout as timeout_err:
+#         return {'Error': f'Request timed out: {timeout_err}'}
+#     except Exception as err:
+#         return {'Error': f'An unexpected error occurred: {err}'}
+   
+   
+
+
+# def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
+#     tokens = get_users_tokens(session_id)
+#     headers = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
+
+#     print(f"Session ID: {session_id}")
+#     print(f"Endpoint: {endpoint}")
+#     print(f"Access Token: {tokens.access_token}")
+
+#     if post_:
+#         print("Making a POST request")
+#         post(BASE_URL + endpoint, headers=headers)
+        
+#     if put_:
+#         print("Making a PUT request")
+#         put(BASE_URL + endpoint, headers=headers)  
+    
+#     print("Making a GET request")
+#     response = get(BASE_URL + endpoint, {}, headers=headers)
+    
+#     print(f"Response Status Code: {response.status_code}")
+    
+#     try:
+#         response_json = response.json()
+#         print(f"Response JSON: {response_json}")
+#         return response_json
+#     except Exception as e:
+#         print(f"Exception: {e}")
+#         return {'Error': 'Issue with request'}
+
+
+
+def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
+    tokens = get_users_tokens(session_id)
+    headers = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
+
+    if post_:
+        post(BASE_URL + endpoint, headers=headers)
+        
+    if put_:
+        put(BASE_URL + endpoint, headers=headers)  
+        
+    response = get(BASE_URL + endpoint, {}, headers=headers)
+    
+    if response.status_code != 200:
+        return {'Error': f'Request to Spotify API returned status code {response.status_code}'}
+
+    try:
+        return response.json()
+    except:
+        return {'Error': 'Issue with request'}
