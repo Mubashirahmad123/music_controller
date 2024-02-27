@@ -11,7 +11,8 @@ export default class Room extends Component {
       guestCanPause: false,
       isHost: false,
       showSettings: false,
-      spotifyAuthenticated: false
+      spotifyAuthenticated: false,
+      song: {}
     };
     // this.roomCode = this.props.match.params.roomCode
 
@@ -23,7 +24,18 @@ export default class Room extends Component {
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.authenticateSpotify = this.authenticateSpotify.bind(this);
     this.getRoomDetails();
+    // this.getCurrentSong();
+    this.getCurrentSong = this.getCurrentSong.bind(this);
 
+
+  }
+
+  componentDidMount(){
+    this.interval = setInterval(this.getCurrentSong, 1000)
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.interval)
   }
   
 
@@ -89,11 +101,27 @@ export default class Room extends Component {
                     });
             }
             console.log("hiii")
-        });
+        });  
+  }
+
+  getCurrentSong() {
+    fetch('/spotify/current-song').then((response) => {
+      console.log("spotify-current-song fetched");
+      if (!response.ok) {
+        console.log("response not ok");
+        return {};
+      } else {
+         return response.json();
+      }
+    }).then((data) => {
+      this.setState({song:data});
+      console.log(data);
+    });
 }
 
 
 
+  
 
   leaveButtonPressed(){
     const requestOptions = {
@@ -153,7 +181,7 @@ export default class Room extends Component {
             Code : {this.roomCode}
           </Typography>
         </Grid>
-        <Grid item xs={12} align="center">
+        {/* <Grid item xs={12} align="center">
         <Typography variant="h6" component={'h6'}>
         Votes: {this.state.votesToSkip}
           </Typography>
@@ -167,7 +195,12 @@ export default class Room extends Component {
         <Typography variant="h6" component={'h6'}>
         Host: {this.state.isHost.toString()}
           </Typography>
-        </Grid>
+        </Grid> */}
+        {/* {this.state.song} */}
+        {this.state.song ? this.state.song.title : null}
+       
+
+
         {this.state.isHost ? this.renderSettingsButton() : null}
         <Grid item xs={12} align="center">
           <Button  variant="contained" color="secondary" onClick={this.leaveButtonPressed}
