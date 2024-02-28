@@ -182,7 +182,7 @@ export default class Room extends Component {
             Code : {this.roomCode}
           </Typography>
         </Grid>
-        <Grid item xs={12} align="center">
+        {/* <Grid item xs={12} align="center">
         <Typography variant="h6" component={'h6'}>
         Votes: {this.state.votesToSkip}
           </Typography>
@@ -196,7 +196,7 @@ export default class Room extends Component {
         <Typography variant="h6" component={'h6'}>
         Host: {this.state.isHost.toString()}
           </Typography>
-        </Grid>
+        </Grid> */}
         <MusicPlayer {...this.state.song}/>
         {/* {this.state.song ? this.state.song.title : null} */}
         {this.state.isHost ? this.renderSettingsButton() : null}

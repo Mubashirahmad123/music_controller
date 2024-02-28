@@ -219,3 +219,9 @@ def pause_song(session_id):
     response = execute_spotify_api_request(session_id, "player/pause", put_=True)
     print(f"Response from Spotify API: {response}")
     return response
+
+
+def skip_song(session_id):
+    print(f"skip song called with session_id: {session_id}")
+
+    return execute_spotify_api_request(session_id, "player/next", post_=True )
