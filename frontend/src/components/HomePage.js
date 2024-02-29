@@ -6,6 +6,7 @@ import Room from "./Room";
 import { Grid, Button, ButtonGroup, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import Info from "./Info";
 
 
 
@@ -56,13 +57,16 @@ export default class HomePage extends Component {
             <Grid container spacing={3}>
                 <Grid item xs={12} align="center">
                     <Typography variant="h3" compact="h3">
-                        House Pary
+                        House Party
                     </Typography>
                 </Grid>
                 <Grid item xs={12} align="center">
                 <ButtonGroup disableElevation variant="contained" color="primary">
                     <Button color="primary" component={Link} to='/join'>
                         Join a Room 
+                        </Button>
+                        <Button color="default" component={Link} to='/Info'>
+                        Info
                         </Button>
                     <Button color="secondary" component={Link} to='/create'>
                         Create a Room
@@ -93,6 +97,8 @@ export default class HomePage extends Component {
 
 
                     <Route path="/join" element={<RoomJoinPage />} />
+                    <Route path="/info" element={<Info/>} />
+
                     <Route path="/create" element={<CreateRoomPage />} />
                     <Route path="/room/:roomCode" element={<Room/>} />
                     {/* <Route path="/room/:roomCode"
