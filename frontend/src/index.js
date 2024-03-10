@@ -1,13 +1,18 @@
 import App from "./components/App";
 
-
 var colors = new Array(
-    [62,35,255],
-    [60,255,60],
-    [255,35,98],
-    [45,175,230],
-    [255,0,255],
-    [255,128,0]);
+  [255,105,180], // Hot Pink
+  [255,140,0],   // Dark Orange
+  [75,0,130],    // Indigo
+  [127,255,212], // Aquamarine
+  // [135,206,250], // Light Sky Blue
+  [240,128,128], // Light Coral
+  // [152,251,152], // Pale Green
+  [210,105,30],  // Chocolate
+  // [0,255,0]      // Lime
+);
+
+
   
   var step = 0;
   //color table indices for: 
